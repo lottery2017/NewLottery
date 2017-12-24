@@ -2,8 +2,9 @@ package com.lottery.app.dao;
 
 import com.lottery.app.domain.User;
 import com.lottery.app.domain.UserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     int countByExample(UserExample example);
@@ -21,6 +22,8 @@ public interface UserMapper {
     List<User> selectByExample(UserExample example);
 
     User selectByPrimaryKey(Integer userid);
+
+    User selectByNickName(String nickname);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 

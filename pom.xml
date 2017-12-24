@@ -25,6 +25,7 @@
         <commons-codec.version>1.10</commons-codec.version>
         <aspectjweaver.version>1.8.10</aspectjweaver.version>
         <freemark.verison>2.3.27-incubating</freemark.verison>
+        <testng.verison>6.11</testng.verison>
     </properties>
 
     <dependencies>
@@ -189,12 +190,31 @@
             <version>4.0.0-b07</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-site-plugin</artifactId>
             <version>3.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-api</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.verison}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <finalName>lottery</finalName>
