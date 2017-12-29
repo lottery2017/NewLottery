@@ -1,5 +1,7 @@
 package com.lottery.app.service.interfaces.IUser;
 
+import java.io.IOException;
+
 /**
  * Created by gaojunc on 2017/12/24 17:02.
  * Created Reason: 用户登录接口
@@ -11,7 +13,7 @@ public interface IUserLogin extends IUser{
      * @param requestBody
      * @return 响应报文
      */
-    String login(String requestBody);
+    String login(String requestBody) throws IOException;
 
     /**
      * 使用手机号验证码登录

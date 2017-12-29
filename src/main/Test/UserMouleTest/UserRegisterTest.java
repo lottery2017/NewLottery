@@ -15,10 +15,11 @@ public class UserRegisterTest {
     @Test
     public void testRegister(){
         String body = "{\n" +
-                "   \"telephoneNum\" : 1888888882\n" +
+                "   \"telephoneNum\" : 1888888844\n" +
                 "}";
         HttpConnector httpConnector = new HttpConnector(TOMCAT_URL + "register/action", body);
         String send = httpConnector.send();
+        System.out.println("收到报文:" + send);
         Assert.assertNotNull(send);
     }
 

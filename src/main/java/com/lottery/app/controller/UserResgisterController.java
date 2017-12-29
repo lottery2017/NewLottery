@@ -2,8 +2,11 @@ package com.lottery.app.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lottery.app.domain.Model.ResultStatus;
 import com.lottery.app.domain.User;
 import com.lottery.app.service.interfaces.IUser.IUserRegister;
+import com.lottery.app.util.SuccessCodes;
+import com.lottery.app.util.exception.ResponeseCodes;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
@@ -29,27 +31,30 @@ public class UserResgisterController {
     private IUserRegister userService;
 
     @RequestMapping(value = "/action", method = RequestMethod.POST)
-    public String register(HttpServletRequest request, HttpServletResponse response) {
+    public String register(HttpServletRequest request) {
         int rst = 0;
+        ResultStatus resultStatus = new ResultStatus();
         try {
             String body = _getRequestBody(request);
             JSONObject jsonObject = JSON.parseObject(body);
             String telephoneNum = jsonObject.getString("telephoneNum");
             User user = _getUserDbObject(telephoneNum);
             rst = userService.insertNewUser(user);
-        } catch (IOException e) {
+
+            if (rst == SuccessCodes.ACTION_SUCCESSFULLY) {
+                resultStatus.setStatusCode(ResponeseCodes.CODE_E000001);
+                resultStatus.setStatusInfo("successfull");
+            }else {
+                resultStatus.setStatusCode(ResponeseCodes.CODE_E000005);
+                resultStatus.setStatusInfo("注册失败!");
+            }
+        } catch (Exception e) {
             if (log.isEnabledFor(Priority.ERROR))
                 log.error("注册用户出错。", e);
-            return null;
+            resultStatus.setStatusCode(ResponeseCodes.CODE_E000005);
+            resultStatus.setStatusInfo("注册失败!");
         }
-        if (rst == 1)
-            return "{\n" +
-                    "    \"success\": \"注册成功\"\n" +
-                    "}";
-        else
-            return "{\n" +
-                    "\"error\"" + " : \"xxxx\",\n" +
-                    "\"error_code\"" + " : " + rst;
+        return JSON.toJSONString(resultStatus);
     }
 
     private User _getUserDbObject(String telephoneNum) {

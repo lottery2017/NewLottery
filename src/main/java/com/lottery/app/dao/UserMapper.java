@@ -1,35 +1,17 @@
 package com.lottery.app.dao;
 
 import com.lottery.app.domain.User;
-import com.lottery.app.domain.UserExample;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 public interface UserMapper {
-    int countByExample(UserExample example);
-
-    int deleteByExample(UserExample example);
-
     int deleteByPrimaryKey(Integer userid);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    List<User> selectByExampleWithBLOBs(UserExample example);
-
-    List<User> selectByExample(UserExample example);
-
     User selectByPrimaryKey(Integer userid);
 
-    User selectByNickName(String nickname);
-
-    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") User record, @Param("example") UserExample example);
-
-    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
+    User selectByPhone(String phoneNum);
 
     int updateByPrimaryKeySelective(User record);
 

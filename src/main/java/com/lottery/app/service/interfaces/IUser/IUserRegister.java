@@ -1,13 +1,12 @@
 package com.lottery.app.service.interfaces.IUser;
 
 import com.lottery.app.domain.User;
-import com.lottery.app.domain.UserExample;
 
 /**
  * Created by gaojunc on 2017/12/21.
  * Created Reason: 注册用户
  */
-public interface IUserRegister extends IUser{
+public interface IUserRegister{
 
     /**
      * 注册新用户
@@ -15,8 +14,4 @@ public interface IUserRegister extends IUser{
      * @return
      */
     int insertNewUser(User user);
-
-
-    int countByExamlpe(UserExample example);
-
 }

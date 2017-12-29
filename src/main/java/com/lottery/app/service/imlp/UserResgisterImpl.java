@@ -2,7 +2,6 @@ package com.lottery.app.service.imlp;
 
 import com.lottery.app.dao.UserMapper;
 import com.lottery.app.domain.User;
-import com.lottery.app.domain.UserExample;
 import com.lottery.app.service.interfaces.IUser.IUserRegister;
 import com.lottery.app.util.ErrorCodes;
 import org.apache.log4j.Logger;
@@ -33,9 +32,6 @@ public class UserResgisterImpl implements IUserRegister {
         return rst;
     }
 
-    public int countByExamlpe(UserExample example) {
-        return userMapper.countByExample(example);
-    }
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -43,6 +39,6 @@ public class UserResgisterImpl implements IUserRegister {
     }
 
     public User findUser(User user) {
-        return  userMapper.selectByNickName(user.getPhoneNum());
+        return  userMapper.selectByPhone(user.getPhoneNum());
     }
 }

@@ -34,7 +34,7 @@ public class HttpConnector{
 
 	public HttpConnector(String url,byte[] bytes){
 		HttpClientParams httpClientParams = new HttpClientParams();
-		httpClientParams.setSoTimeout(2000);
+		httpClientParams.setSoTimeout(20000);
 		client = new HttpClient(httpClientParams);
 		pm = new PostMethod(url);
 		InputStream is = new ByteArrayInputStream(bytes);
@@ -44,7 +44,7 @@ public class HttpConnector{
 
 	public HttpConnector(String url, String body){
         HttpClientParams httpClientParams = new HttpClientParams();
-        httpClientParams.setSoTimeout(2000);
+        httpClientParams.setSoTimeout(20000);
         client = new HttpClient(httpClientParams);
         pm = new PostMethod(url);
         try {

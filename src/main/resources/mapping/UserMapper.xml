@@ -12,105 +12,23 @@
     <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
     <result column="regist_date" property="registDate" jdbcType="TIMESTAMP" />
     <result column="valid_tag" property="validTag" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lottery.app.domain.User" extends="BaseResultMap" >
     <result column="nickname" property="nickname" jdbcType="VARBINARY" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
     userid, username, usertype, recommender, organize_id, modify_date, headimage_url, 
-    phone_num, regist_date, valid_tag
+    phone_num, regist_date, valid_tag, password
   </sql>
   <sql id="Blob_Column_List" >
     nickname
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lottery.app.domain.UserExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+
+  <select id="selectByPhone" resultType="com.lottery.app.domain.User">
+      select * from user where user.phone_num = #{phoneNum}
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lottery.app.domain.UserExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
+
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -119,31 +37,21 @@
     from user
     where userid = #{userid,jdbcType=INTEGER}
   </select>
-  <select id="selectByNickName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select
-      <include refid="Base_Column_List" />
-    from user
-    where nickname = #{nickname,jdbcType=VARCHAR}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
     where userid = #{userid,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.lottery.app.domain.UserExample" >
-    delete from user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   <insert id="insert" parameterType="com.lottery.app.domain.User" >
     insert into user (userid, username, usertype, 
       recommender, organize_id, modify_date, 
       headimage_url, phone_num, regist_date, 
-      valid_tag, nickname)
+      valid_tag, password, nickname
+      )
     values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usertype,jdbcType=INTEGER}, 
       #{recommender,jdbcType=INTEGER}, #{organizeId,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
       #{headimageUrl,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{registDate,jdbcType=TIMESTAMP}, 
-      #{validTag,jdbcType=VARCHAR}, #{nickname,jdbcType=VARBINARY})
+      #{validTag,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARBINARY}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lottery.app.domain.User" >
     insert into user
@@ -177,6 +85,9 @@
       </if>
       <if test="validTag != null" >
         valid_tag,
+      </if>
+      <if test="password != null" >
+        password,
       </if>
       <if test="nickname != null" >
         nickname,
@@ -213,91 +124,14 @@
       <if test="validTag != null" >
         #{validTag,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="nickname != null" >
         #{nickname,jdbcType=VARBINARY},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.lottery.app.domain.UserExample" resultType="java.lang.Integer" >
-    select count(*) from user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update user
-    <set >
-      <if test="record.userid != null" >
-        userid = #{record.userid,jdbcType=INTEGER},
-      </if>
-      <if test="record.username != null" >
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.usertype != null" >
-        usertype = #{record.usertype,jdbcType=INTEGER},
-      </if>
-      <if test="record.recommender != null" >
-        recommender = #{record.recommender,jdbcType=INTEGER},
-      </if>
-      <if test="record.organizeId != null" >
-        organize_id = #{record.organizeId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.modifyDate != null" >
-        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.headimageUrl != null" >
-        headimage_url = #{record.headimageUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phoneNum != null" >
-        phone_num = #{record.phoneNum,jdbcType=VARCHAR},
-      </if>
-      <if test="record.registDate != null" >
-        regist_date = #{record.registDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.validTag != null" >
-        valid_tag = #{record.validTag,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nickname != null" >
-        nickname = #{record.nickname,jdbcType=VARBINARY},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update user
-    set userid = #{record.userid,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      usertype = #{record.usertype,jdbcType=INTEGER},
-      recommender = #{record.recommender,jdbcType=INTEGER},
-      organize_id = #{record.organizeId,jdbcType=VARCHAR},
-      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
-      headimage_url = #{record.headimageUrl,jdbcType=VARCHAR},
-      phone_num = #{record.phoneNum,jdbcType=VARCHAR},
-      regist_date = #{record.registDate,jdbcType=TIMESTAMP},
-      valid_tag = #{record.validTag,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARBINARY}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update user
-    set userid = #{record.userid,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      usertype = #{record.usertype,jdbcType=INTEGER},
-      recommender = #{record.recommender,jdbcType=INTEGER},
-      organize_id = #{record.organizeId,jdbcType=VARCHAR},
-      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
-      headimage_url = #{record.headimageUrl,jdbcType=VARCHAR},
-      phone_num = #{record.phoneNum,jdbcType=VARCHAR},
-      regist_date = #{record.registDate,jdbcType=TIMESTAMP},
-      valid_tag = #{record.validTag,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.lottery.app.domain.User" >
     update user
     <set >
@@ -328,6 +162,9 @@
       <if test="validTag != null" >
         valid_tag = #{validTag,jdbcType=VARCHAR},
       </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="nickname != null" >
         nickname = #{nickname,jdbcType=VARBINARY},
       </if>
@@ -345,6 +182,7 @@
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       valid_tag = #{validTag,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARBINARY}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
@@ -358,7 +196,8 @@
       headimage_url = #{headimageUrl,jdbcType=VARCHAR},
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       regist_date = #{registDate,jdbcType=TIMESTAMP},
-      valid_tag = #{validTag,jdbcType=VARCHAR}
+      valid_tag = #{validTag,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
 </mapper>

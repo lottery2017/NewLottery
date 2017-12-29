@@ -1,9 +1,8 @@
 package com.lottery.app.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
+public class User {
     private Integer userid;
 
     private String username;
@@ -23,6 +22,8 @@ public class User implements Serializable{
     private Date registDate;
 
     private String validTag;
+
+    private String password;
 
     private byte[] nickname;
 
@@ -104,6 +105,14 @@ public class User implements Serializable{
 
     public void setValidTag(String validTag) {
         this.validTag = validTag == null ? null : validTag.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public byte[] getNickname() {
