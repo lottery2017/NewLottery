@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.lottery.app.domain.Model.ResultStatus;
 import com.lottery.app.service.interfaces.IUser.IUserLogin;
 import com.lottery.app.util.ErrorCodes;
+import com.lottery.app.util.exception.ResponeseCodes;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class UserLoginController {
             if (log.isEnabledFor(Priority.ERROR))
                 log.error("用户用户出错。", e);
             ResultStatus resultStatus = new ResultStatus();
-            resultStatus.setStatusCode(ErrorCodes.UNEXCEPTED_ERROR);
+            resultStatus.setStatusCode(ResponeseCodes.CODE_E000005);
             resultStatus.setStatusInfo("注册用户出错。");
             return JSON.toJSONString(resultStatus);
         }
