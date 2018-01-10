@@ -1,9 +1,8 @@
-package com.lottery.app.service.imlp;
+package com.lottery.user.service.imlp;
 
-import com.lottery.app.dao.UserMapper;
-import com.lottery.app.domain.User;
-import com.lottery.app.service.interfaces.IUser.IUserRegister;
-import com.lottery.app.util.ErrorCodes;
+import com.lottery.user.dao.UserMapper;
+import com.lottery.user.domain.User;
+import com.lottery.user.service.interfaces.IUser.IUserRegister;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,24 +11,14 @@ import org.springframework.stereotype.Service;
  * Created by gaojunc on 2017/12/21.
  * Created Reason:
  */
-@Service("userService")
+@Service("userRegister")
 public class UserResgisterImpl implements IUserRegister {
     private static Logger logger = Logger.getLogger(UserResgisterImpl.class);
 
     private UserMapper userMapper;
 
     public int insertNewUser(User user) {
-        if (logger.isDebugEnabled())
-            logger.debug("开始插入新用户信息...");
-
-        if (findUser(user) != null)
-            return ErrorCodes.USER_ALLREADY_EXITS;
-
-        int rst;
-        if (user != null)
-            rst = userMapper.insert(user);
-        else rst = ErrorCodes.DATABASE_UNNORMAL;
-        return rst;
+        return 0;
     }
 
 

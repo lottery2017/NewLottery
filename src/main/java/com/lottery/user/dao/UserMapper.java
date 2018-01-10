@@ -1,6 +1,6 @@
-package com.lottery.app.dao;
+package com.lottery.user.dao;
 
-import com.lottery.app.domain.User;
+import com.lottery.user.domain.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userid);

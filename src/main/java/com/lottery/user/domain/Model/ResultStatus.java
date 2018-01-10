@@ -1,4 +1,4 @@
-package com.lottery.app.domain.Model;
+package com.lottery.user.domain.Model;
 
 /**
  * Created by gaojunc on 2017/12/28 20:17.

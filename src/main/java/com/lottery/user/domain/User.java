@@ -1,4 +1,4 @@
-package com.lottery.app.domain;
+package com.lottery.user.domain;
 
 import java.util.Date;
 

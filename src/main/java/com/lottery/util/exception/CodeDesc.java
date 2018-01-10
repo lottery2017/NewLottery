@@ -1,4 +1,4 @@
-package com.lottery.app.util.exception;
+package com.lottery.util.exception;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

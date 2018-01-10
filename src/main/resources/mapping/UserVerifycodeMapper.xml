@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lottery.user.dao.UserVerifycodeMapper" >
+  <resultMap id="BaseResultMap" type="com.lottery.user.domain.UserVerifycode" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+    <result column="messageId" property="messageid" jdbcType="VARCHAR" />
+    <result column="opt_time" property="optTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, phoneNum, messageId, opt_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_verifycode
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByPhone" resultType="com.lottery.user.domain.UserVerifycode">
+        select * from user_verifycode WHERE phoneNum = #{phoneNum};
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_verifycode
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lottery.user.domain.UserVerifycode" >
+    insert into user_verifycode (id, phoneNum, messageId, 
+      opt_time)
+    values (#{id,jdbcType=VARCHAR}, #{phonenum,jdbcType=VARCHAR}, #{messageid,jdbcType=VARCHAR}, 
+      #{optTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lottery.user.domain.UserVerifycode" >
+    insert into user_verifycode
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="phonenum != null" >
+        phoneNum,
+      </if>
+      <if test="messageid != null" >
+        messageId,
+      </if>
+      <if test="optTime != null" >
+        opt_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="messageid != null" >
+        #{messageid,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lottery.user.domain.UserVerifycode" >
+    update user_verifycode
+    <set >
+      <if test="phonenum != null" >
+        phoneNum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="messageid != null" >
+        messageId = #{messageid,jdbcType=VARCHAR},
+      </if>
+      <if test="optTime != null" >
+        opt_time = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lottery.user.domain.UserVerifycode" >
+    update user_verifycode
+    set phoneNum = #{phonenum,jdbcType=VARCHAR},
+      messageId = #{messageid,jdbcType=VARCHAR},
+      opt_time = #{optTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

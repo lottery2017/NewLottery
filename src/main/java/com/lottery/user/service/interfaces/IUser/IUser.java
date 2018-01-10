@@ -1,6 +1,6 @@
-package com.lottery.app.service.interfaces.IUser;
+package com.lottery.user.service.interfaces.IUser;
 
-import com.lottery.app.domain.User;
+import com.lottery.user.domain.User;
 
 /**
  * Created by gaojunc on 2017/12/24 18:51.

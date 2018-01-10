@@ -1,4 +1,4 @@
-package com.lottery.app.service.interfaces.IUser;
+package com.lottery.user.service.interfaces.IUser;
 
 import java.io.IOException;
 
