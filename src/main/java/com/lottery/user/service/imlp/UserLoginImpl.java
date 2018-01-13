@@ -16,6 +16,8 @@ import com.lottery.util.verifycode.SendMS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by gaojunc on 2017/12/24 17:06.
  * Created Reason:用户登录默认实现类
@@ -24,15 +26,14 @@ import org.springframework.stereotype.Service;
 public class UserLoginImpl implements IUserLogin {
 
     private UserMapper userMapper;
-    @Autowired
     private UserVerifycodeMapper userVerifycodeMapper;
     /*
      * 用户登录
      */
-    public String login(String requestBody) {
+    public String loginWithVerifyCode(String requestBody) {
         ResultStatus resultStatus = new ResultStatus();
         if (requestBody != null && requestBody.length() > 0) {
-            UserVerifycode userVerifycode = null;
+            List<UserVerifycode> userVerifycode = null;
             try {
                 JSONObject jsonObject = JSON.parseObject(requestBody);
                 String telephoneNum = jsonObject.getString("phone_num");
@@ -40,9 +41,9 @@ public class UserLoginImpl implements IUserLogin {
 
                 //验证验证码
                 userVerifycode = userVerifycodeMapper.selectByPhone(telephoneNum);
-                if (userVerifycode == null)
+                if (userVerifycode == null || userVerifycode.size() ==0)
                     throw new UserRuntimeException();
-                String messageid = userVerifycode.getMessageid();
+                String messageid = userVerifycode.get(userVerifycode.size() == 1 ? 0 : userVerifycode.size() - 1).getMessageid();
                 ValidSMSResult smsCodeValid = SendMS.isSMSCodeValid(messageid, verifyCode);
                 if (smsCodeValid == null || !smsCodeValid.getIsValid()) {
                     resultStatus.setStatusCode(ResponeseCodes.CODE_E000006);
@@ -71,8 +72,12 @@ public class UserLoginImpl implements IUserLogin {
                 resultStatus.setStatusCode(ResponeseCodes.CODE_E000006);
             } finally {
                 //删除该用户最新的message信息
-                if (userVerifycode != null)
-                    userVerifycodeMapper.deleteByPrimaryKey(userVerifycode.getId());
+                if (userVerifycode != null){
+                    for (UserVerifycode verifycode: userVerifycode
+                            ) {
+                        userVerifycodeMapper.deleteByPrimaryKey(verifycode.getId());
+                    }
+                }
             }
         }else{
             resultStatus.setStatusInfo("请求报文为空或不合法");
@@ -81,13 +86,10 @@ public class UserLoginImpl implements IUserLogin {
         return JSON.toJSONString(resultStatus);
     }
 
-    public String loginWithVerifyCode(String phoneNum, String verifyCode, String failTime) {
+    public String loginWithPassword(String requestBody) {
         return null;
     }
 
-    public String loginWithPassword(String account, String password) {
-        return null;
-    }
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {

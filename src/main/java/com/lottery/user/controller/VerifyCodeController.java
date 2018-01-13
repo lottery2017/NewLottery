@@ -5,15 +5,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.lottery.user.dao.UserVerifycodeMapper;
 import com.lottery.user.domain.Model.ResultStatus;
-import com.lottery.user.domain.User;
 import com.lottery.user.domain.UserVerifycode;
-import com.lottery.user.service.interfaces.IUser.IUser;
 import com.lottery.util.RequestUtil;
 import com.lottery.util.exception.ResponeseCodes;
 import com.lottery.util.verifycode.SendMS;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +28,6 @@ import java.util.Date;
 public class VerifyCodeController {
     private static Logger log = Logger.getLogger(VerifyCodeController.class);
     private UserVerifycodeMapper userVerifycodeMapper;
-    private IUser userService;
 
     @RequestMapping("/register/getverifycode")
     @ResponseBody
@@ -46,18 +42,20 @@ public class VerifyCodeController {
         JSONObject jsonObject = JSON.parseObject(body);
         String phoneNum = jsonObject.getString("phone_num");
 
-        if (_checkIfExists(resultStatus, phoneNum)) return JSON.toJSONString(resultStatus);
-
         SendSMSResult sendSMSResult = SendMS.toSendSMSCode(phoneNum);
         //判断是否发送成功
         if (sendSMSResult.getResponseCode() == 200) {
             //如果发送成功将该条信息存库
             String messageId = sendSMSResult.getMessageId();
+            resultStatus.setStatusInfo("验证码已发送");
+            resultStatus.setStatusCode(ResponeseCodes.CODE_E000001);
             _saveMessageId(phoneNum, messageId);
-            return "{'success':'验证码已发送'}";
+            return JSON.toJSONString(resultStatus);
         } else {
             //失败直接返回报文
-            return sendSMSResult.toString();
+            resultStatus.setStatusInfo(sendSMSResult.toString());
+            resultStatus.setStatusCode(ResponeseCodes.CODE_E000005);
+            return JSON.toJSONString(resultStatus);
         }
     }
 
@@ -70,23 +68,7 @@ public class VerifyCodeController {
         userVerifycodeMapper.insert(userVerifycode);
     }
 
-    private boolean _checkIfExists(ResultStatus resultStatus, String phoneNum) {
-        User user = new User();
-        user.setPhoneNum(phoneNum);
-        User rst = userService.findUser(user);
-        if (rst != null) {
-            resultStatus.setStatusInfo("用户已经存在！");
-            resultStatus.setStatusCode(ResponeseCodes.CODE_E000002);
-            return true;
-        }
-        return false;
-    }
 
-    @Autowired
-    @Qualifier("userRegister")
-    public void setUserService(IUser userService) {
-        this.userService = userService;
-    }
 
     @Autowired
     public void setUserVerifycodeMapper(UserVerifycodeMapper userVerifycodeMapper) {

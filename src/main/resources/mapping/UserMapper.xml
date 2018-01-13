@@ -3,23 +3,24 @@
 <mapper namespace="com.lottery.user.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.lottery.user.domain.User" >
     <id column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="usertype" property="usertype" jdbcType="INTEGER" />
-    <result column="recommender" property="recommender" jdbcType="INTEGER" />
+    <result column="recommender" property="recommender" jdbcType="VARCHAR" />
     <result column="organize_id" property="organizeId" jdbcType="VARCHAR" />
     <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
     <result column="headimage_url" property="headimageUrl" jdbcType="VARCHAR" />
     <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
     <result column="regist_date" property="registDate" jdbcType="TIMESTAMP" />
     <result column="valid_tag" property="validTag" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lottery.user.domain.User" extends="BaseResultMap" >
     <result column="nickname" property="nickname" jdbcType="VARBINARY" />
   </resultMap>
   <sql id="Base_Column_List" >
-    userid, username, usertype, recommender, organize_id, modify_date, headimage_url, 
-    phone_num, regist_date, valid_tag, password
+    userid, password, username, usertype, recommender, organize_id, modify_date, headimage_url, 
+    phone_num, regist_date, valid_tag, invite_code
   </sql>
   <sql id="Blob_Column_List" >
     nickname
@@ -42,22 +43,25 @@
     where userid = #{userid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lottery.user.domain.User" >
-    insert into user (userid, username, usertype, 
-      recommender, organize_id, modify_date, 
-      headimage_url, phone_num, regist_date, 
-      valid_tag, password, nickname
-      )
-    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{usertype,jdbcType=INTEGER}, 
-      #{recommender,jdbcType=INTEGER}, #{organizeId,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{headimageUrl,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{registDate,jdbcType=TIMESTAMP}, 
-      #{validTag,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARBINARY}
-      )
+    insert into user (userid, password, username, 
+      usertype, recommender, organize_id, 
+      modify_date, headimage_url, phone_num, 
+      regist_date, valid_tag, invite_code, 
+      nickname)
+    values (#{userid,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{usertype,jdbcType=INTEGER}, #{recommender,jdbcType=VARCHAR}, #{organizeId,jdbcType=VARCHAR}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{headimageUrl,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{registDate,jdbcType=TIMESTAMP}, #{validTag,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.lottery.user.domain.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userid != null" >
         userid,
+      </if>
+      <if test="password != null" >
+        password,
       </if>
       <if test="username != null" >
         username,
@@ -86,8 +90,8 @@
       <if test="validTag != null" >
         valid_tag,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="inviteCode != null" >
+        invite_code,
       </if>
       <if test="nickname != null" >
         nickname,
@@ -97,6 +101,9 @@
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
       </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
@@ -104,7 +111,7 @@
         #{usertype,jdbcType=INTEGER},
       </if>
       <if test="recommender != null" >
-        #{recommender,jdbcType=INTEGER},
+        #{recommender,jdbcType=VARCHAR},
       </if>
       <if test="organizeId != null" >
         #{organizeId,jdbcType=VARCHAR},
@@ -124,8 +131,8 @@
       <if test="validTag != null" >
         #{validTag,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="inviteCode != null" >
+        #{inviteCode,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null" >
         #{nickname,jdbcType=VARBINARY},
@@ -135,6 +142,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lottery.user.domain.User" >
     update user
     <set >
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
       </if>
@@ -142,7 +152,7 @@
         usertype = #{usertype,jdbcType=INTEGER},
       </if>
       <if test="recommender != null" >
-        recommender = #{recommender,jdbcType=INTEGER},
+        recommender = #{recommender,jdbcType=VARCHAR},
       </if>
       <if test="organizeId != null" >
         organize_id = #{organizeId,jdbcType=VARCHAR},
@@ -162,8 +172,8 @@
       <if test="validTag != null" >
         valid_tag = #{validTag,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="inviteCode != null" >
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null" >
         nickname = #{nickname,jdbcType=VARBINARY},
@@ -173,31 +183,33 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lottery.user.domain.User" >
     update user
-    set username = #{username,jdbcType=VARCHAR},
+    set password = #{password,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
       usertype = #{usertype,jdbcType=INTEGER},
-      recommender = #{recommender,jdbcType=INTEGER},
+      recommender = #{recommender,jdbcType=VARCHAR},
       organize_id = #{organizeId,jdbcType=VARCHAR},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       headimage_url = #{headimageUrl,jdbcType=VARCHAR},
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       valid_tag = #{validTag,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARBINARY}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lottery.user.domain.User" >
     update user
-    set username = #{username,jdbcType=VARCHAR},
+    set password = #{password,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
       usertype = #{usertype,jdbcType=INTEGER},
-      recommender = #{recommender,jdbcType=INTEGER},
+      recommender = #{recommender,jdbcType=VARCHAR},
       organize_id = #{organizeId,jdbcType=VARCHAR},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       headimage_url = #{headimageUrl,jdbcType=VARCHAR},
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       valid_tag = #{validTag,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR}
+      invite_code = #{inviteCode,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
 </mapper>

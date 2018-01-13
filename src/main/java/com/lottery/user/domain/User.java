@@ -5,11 +5,13 @@ import java.util.Date;
 public class User {
     private Integer userid;
 
+    private String password;
+
     private String username;
 
     private Integer usertype;
 
-    private Integer recommender;
+    private String recommender;
 
     private String organizeId;
 
@@ -23,7 +25,7 @@ public class User {
 
     private String validTag;
 
-    private String password;
+    private String inviteCode;
 
     private byte[] nickname;
 
@@ -33,6 +35,14 @@ public class User {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public String getUsername() {
@@ -51,12 +61,12 @@ public class User {
         this.usertype = usertype;
     }
 
-    public Integer getRecommender() {
+    public String getRecommender() {
         return recommender;
     }
 
-    public void setRecommender(Integer recommender) {
-        this.recommender = recommender;
+    public void setRecommender(String recommender) {
+        this.recommender = recommender == null ? null : recommender.trim();
     }
 
     public String getOrganizeId() {
@@ -107,12 +117,12 @@ public class User {
         this.validTag = validTag == null ? null : validTag.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getInviteCode() {
+        return inviteCode;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode == null ? null : inviteCode.trim();
     }
 
     public byte[] getNickname() {

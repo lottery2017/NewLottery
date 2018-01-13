@@ -7,6 +7,15 @@ package com.lottery.user.domain.Model;
 public class ResultStatus {
     private String statusCode;
     private String statusInfo;
+    private String invite_code;
+
+    public String getInvite_code() {
+        return invite_code;
+    }
+
+    public void setInvite_code(String invite_code) {
+        this.invite_code = invite_code;
+    }
 
     public String getStatusCode() {
         return statusCode;

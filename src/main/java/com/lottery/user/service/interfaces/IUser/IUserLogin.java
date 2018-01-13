@@ -9,26 +9,14 @@ import java.io.IOException;
 public interface IUserLogin extends IUser{
 
     /**
-     * 用户登录
-     * @param requestBody
-     * @return 响应报文
-     */
-    String login(String requestBody) throws IOException;
-
-    /**
      * 使用手机号验证码登录
-     * @param phoneNum 手机号
-     * @param verifyCode 验证码
-     * @param failTime 超时时间
      * @return 响应报文
      */
-    String loginWithVerifyCode(String phoneNum, String verifyCode, String failTime);
+    String loginWithVerifyCode(String requestBody) throws IOException;
 
     /**
      * 使用账号密码登录
-     * @param account 账号
-     * @param password 密码（sha256）
      * @return 响应报文
      */
-    String loginWithPassword(String account, String password);
+    String loginWithPassword(String requestBody);
 }

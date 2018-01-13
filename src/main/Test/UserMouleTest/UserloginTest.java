@@ -1,6 +1,7 @@
 package UserMouleTest;
 
 import HttpUtil.HttpConnector;
+import com.lottery.util.ShareCodeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -22,4 +23,12 @@ public class UserloginTest extends AbstractTest {
         System.out.println("收到报文:" + send);
         Assert.assertNotNull(send);
     }
+
+    @Test
+    public void inviteCodeTest(){
+        String num = "13289396632";
+        String hex = ShareCodeUtil.idToCode(num);
+        System.out.println(hex);
+    }
+
 }

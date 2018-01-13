@@ -2,6 +2,8 @@ package com.lottery.user.dao;
 
 import com.lottery.user.domain.UserVerifycode;
 
+import java.util.List;
+
 public interface UserVerifycodeMapper {
     int deleteByPrimaryKey(String id);
 
@@ -15,5 +17,5 @@ public interface UserVerifycodeMapper {
 
     int updateByPrimaryKey(UserVerifycode record);
 
-    UserVerifycode selectByPhone(String phoneNum);
+    List<UserVerifycode> selectByPhone(String phoneNum);
 }
