@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by gaojunc on 2017/12/21.
@@ -107,11 +108,15 @@ public class UserResgisterImpl implements IUserRegister {
 
         if (recommenderCode != null && recommenderCode.length() > 0)
             user.setRecommender(recommenderCode);
+        user.setUserid("key_" + telephoneNum);
         user.setInviteCode(invite_code);
         user.setPhoneNum(telephoneNum);
         user.setRegistDate(date);
         user.setModifyDate(date);
         user.setValidTag("Y");
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        uuid = telephoneNum +"_" + uuid.substring(15);
+        user.setNickname(uuid);
         return user;
     }
 

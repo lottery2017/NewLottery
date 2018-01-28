@@ -32,4 +32,7 @@ public class ResponeseCodes {
 	@CodeDesc(code = "Lottery-E-000008", description = "用户不存在")
 	public static final String CODE_E000008 = "Lottery-E-000008";
 
+	@CodeDesc(code = "Lottery-E-000009", description = "验证失败")
+	public static final String CODE_E000009 = "Lottery-E-000009";
+
 }

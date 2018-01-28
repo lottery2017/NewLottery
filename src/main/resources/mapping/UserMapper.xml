@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lottery.user.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.lottery.user.domain.User" >
-    <id column="userid" property="userid" jdbcType="INTEGER" />
+    <id column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="usertype" property="usertype" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="usertype" property="usertype" jdbcType="CHAR" />
     <result column="recommender" property="recommender" jdbcType="VARCHAR" />
     <result column="organize_id" property="organizeId" jdbcType="VARCHAR" />
     <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
@@ -14,45 +15,39 @@
     <result column="regist_date" property="registDate" jdbcType="TIMESTAMP" />
     <result column="valid_tag" property="validTag" jdbcType="VARCHAR" />
     <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lottery.user.domain.User" extends="BaseResultMap" >
-    <result column="nickname" property="nickname" jdbcType="VARBINARY" />
+    <result column="identify_code" property="identifyCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    userid, password, username, usertype, recommender, organize_id, modify_date, headimage_url, 
-    phone_num, regist_date, valid_tag, invite_code
+    userid, password, username, nickname, usertype, recommender, organize_id, modify_date, 
+    headimage_url, phone_num, regist_date, valid_tag, invite_code, identify_code
   </sql>
-  <sql id="Blob_Column_List" >
-    nickname
-  </sql>
-
-  <select id="selectByPhone" resultType="com.lottery.user.domain.User">
-      select * from user where user.phone_num = #{phoneNum}
-  </select>
-
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from user
-    where userid = #{userid,jdbcType=INTEGER}
+    where userid = #{userid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPhone" resultType="com.lottery.user.domain.User">
+        select * from user where user.phone_num = #{phoneNum}
+    </select>
+    <select id="selectByNickName" resultType="com.lottery.user.domain.User">
+         select * from user where user.nickname = #{nickName}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user
-    where userid = #{userid,jdbcType=INTEGER}
+    where userid = #{userid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.lottery.user.domain.User" >
     insert into user (userid, password, username, 
-      usertype, recommender, organize_id, 
-      modify_date, headimage_url, phone_num, 
-      regist_date, valid_tag, invite_code, 
-      nickname)
-    values (#{userid,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{usertype,jdbcType=INTEGER}, #{recommender,jdbcType=VARCHAR}, #{organizeId,jdbcType=VARCHAR}, 
-      #{modifyDate,jdbcType=TIMESTAMP}, #{headimageUrl,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
-      #{registDate,jdbcType=TIMESTAMP}, #{validTag,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, 
-      #{nickname,jdbcType=VARBINARY})
+      nickname, usertype, recommender, 
+      organize_id, modify_date, headimage_url, 
+      phone_num, regist_date, valid_tag, 
+      invite_code, identify_code)
+    values (#{userid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{usertype,jdbcType=CHAR}, #{recommender,jdbcType=VARCHAR}, 
+      #{organizeId,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{headimageUrl,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{registDate,jdbcType=TIMESTAMP}, #{validTag,jdbcType=VARCHAR}, 
+      #{inviteCode,jdbcType=VARCHAR}, #{identifyCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lottery.user.domain.User" >
     insert into user
@@ -65,6 +60,9 @@
       </if>
       <if test="username != null" >
         username,
+      </if>
+      <if test="nickname != null" >
+        nickname,
       </if>
       <if test="usertype != null" >
         usertype,
@@ -93,13 +91,13 @@
       <if test="inviteCode != null" >
         invite_code,
       </if>
-      <if test="nickname != null" >
-        nickname,
+      <if test="identifyCode != null" >
+        identify_code,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
+        #{userid,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -107,8 +105,11 @@
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
       </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
       <if test="usertype != null" >
-        #{usertype,jdbcType=INTEGER},
+        #{usertype,jdbcType=CHAR},
       </if>
       <if test="recommender != null" >
         #{recommender,jdbcType=VARCHAR},
@@ -134,8 +135,8 @@
       <if test="inviteCode != null" >
         #{inviteCode,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null" >
-        #{nickname,jdbcType=VARBINARY},
+      <if test="identifyCode != null" >
+        #{identifyCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -148,8 +149,11 @@
       <if test="username != null" >
         username = #{username,jdbcType=VARCHAR},
       </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
       <if test="usertype != null" >
-        usertype = #{usertype,jdbcType=INTEGER},
+        usertype = #{usertype,jdbcType=CHAR},
       </if>
       <if test="recommender != null" >
         recommender = #{recommender,jdbcType=VARCHAR},
@@ -175,17 +179,18 @@
       <if test="inviteCode != null" >
         invite_code = #{inviteCode,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null" >
-        nickname = #{nickname,jdbcType=VARBINARY},
+      <if test="identifyCode != null" >
+        identify_code = #{identifyCode,jdbcType=VARCHAR},
       </if>
     </set>
-    where userid = #{userid,jdbcType=INTEGER}
+    where userid = #{userid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lottery.user.domain.User" >
+  <update id="updateByPrimaryKey" parameterType="com.lottery.user.domain.User" >
     update user
     set password = #{password,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
-      usertype = #{usertype,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      usertype = #{usertype,jdbcType=CHAR},
       recommender = #{recommender,jdbcType=VARCHAR},
       organize_id = #{organizeId,jdbcType=VARCHAR},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
@@ -194,22 +199,7 @@
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       valid_tag = #{validTag,jdbcType=VARCHAR},
       invite_code = #{inviteCode,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARBINARY}
-    where userid = #{userid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.lottery.user.domain.User" >
-    update user
-    set password = #{password,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      usertype = #{usertype,jdbcType=INTEGER},
-      recommender = #{recommender,jdbcType=VARCHAR},
-      organize_id = #{organizeId,jdbcType=VARCHAR},
-      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
-      headimage_url = #{headimageUrl,jdbcType=VARCHAR},
-      phone_num = #{phoneNum,jdbcType=VARCHAR},
-      regist_date = #{registDate,jdbcType=TIMESTAMP},
-      valid_tag = #{validTag,jdbcType=VARCHAR},
-      invite_code = #{inviteCode,jdbcType=VARCHAR}
-    where userid = #{userid,jdbcType=INTEGER}
+      identify_code = #{identifyCode,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=VARCHAR}
   </update>
 </mapper>

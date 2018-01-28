@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lottery.account.dao.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.lottery.account.domain.Account" >
+    <id column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="bank_num" property="bankNum" jdbcType="VARCHAR" />
+    <result column="identify_card" property="identifyCard" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="binding_phone" property="bindingPhone" jdbcType="VARCHAR" />
+    <result column="bank_location" property="bankLocation" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="valid_tag" property="validTag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, balance, bank_num, identify_card, bank_name, binding_phone, bank_location, 
+    create_time, modify_time, valid_tag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from account
+    where userid = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lottery.account.domain.Account" >
+    insert into account (userid, balance, bank_num, 
+      identify_card, bank_name, binding_phone, 
+      bank_location, create_time, modify_time, 
+      valid_tag)
+    values (#{userid,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, #{bankNum,jdbcType=VARCHAR}, 
+      #{identifyCard,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bindingPhone,jdbcType=VARCHAR}, 
+      #{bankLocation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{validTag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lottery.account.domain.Account" >
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="bankNum != null" >
+        bank_num,
+      </if>
+      <if test="identifyCard != null" >
+        identify_card,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="bindingPhone != null" >
+        binding_phone,
+      </if>
+      <if test="bankLocation != null" >
+        bank_location,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="validTag != null" >
+        valid_tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="bankNum != null" >
+        #{bankNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyCard != null" >
+        #{identifyCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bindingPhone != null" >
+        #{bindingPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankLocation != null" >
+        #{bankLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTag != null" >
+        #{validTag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lottery.account.domain.Account" >
+    update account
+    <set >
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="bankNum != null" >
+        bank_num = #{bankNum,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyCard != null" >
+        identify_card = #{identifyCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bindingPhone != null" >
+        binding_phone = #{bindingPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bankLocation != null" >
+        bank_location = #{bankLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validTag != null" >
+        valid_tag = #{validTag,jdbcType=CHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lottery.account.domain.Account" >
+    update account
+    set balance = #{balance,jdbcType=DECIMAL},
+      bank_num = #{bankNum,jdbcType=VARCHAR},
+      identify_card = #{identifyCard,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      binding_phone = #{bindingPhone,jdbcType=VARCHAR},
+      bank_location = #{bankLocation,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      valid_tag = #{validTag,jdbcType=CHAR}
+    where userid = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>

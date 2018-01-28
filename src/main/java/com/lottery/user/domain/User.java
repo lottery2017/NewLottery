@@ -3,13 +3,15 @@ package com.lottery.user.domain;
 import java.util.Date;
 
 public class User {
-    private Integer userid;
+    private String userid;
 
     private String password;
 
     private String username;
 
-    private Integer usertype;
+    private String nickname;
+
+    private String usertype;
 
     private String recommender;
 
@@ -27,14 +29,14 @@ public class User {
 
     private String inviteCode;
 
-    private byte[] nickname;
+    private String identifyCode;
 
-    public Integer getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
     public String getPassword() {
@@ -53,12 +55,20 @@ public class User {
         this.username = username == null ? null : username.trim();
     }
 
-    public Integer getUsertype() {
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getUsertype() {
         return usertype;
     }
 
-    public void setUsertype(Integer usertype) {
-        this.usertype = usertype;
+    public void setUsertype(String usertype) {
+        this.usertype = usertype == null ? null : usertype.trim();
     }
 
     public String getRecommender() {
@@ -125,11 +135,11 @@ public class User {
         this.inviteCode = inviteCode == null ? null : inviteCode.trim();
     }
 
-    public byte[] getNickname() {
-        return nickname;
+    public String getIdentifyCode() {
+        return identifyCode;
     }
 
-    public void setNickname(byte[] nickname) {
-        this.nickname = nickname;
+    public void setIdentifyCode(String identifyCode) {
+        this.identifyCode = identifyCode == null ? null : identifyCode.trim();
     }
 }

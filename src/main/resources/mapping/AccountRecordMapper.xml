@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lottery.account.dao.AccountRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.lottery.account.domain.AccountRecord" >
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="payment_type" property="paymentType" jdbcType="VARCHAR" />
+    <result column="withdraw_type" property="withdrawType" jdbcType="VARCHAR" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="order_content" property="orderContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, userid, order_type, money, payment_type, withdraw_type, order_time, order_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from account_record
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lottery.account.domain.AccountRecord" >
+    insert into account_record (order_id, userid, order_type, 
+      money, payment_type, withdraw_type, 
+      order_time, order_content)
+    values (#{orderId,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, 
+      #{money,jdbcType=DECIMAL}, #{paymentType,jdbcType=VARCHAR}, #{withdrawType,jdbcType=VARCHAR}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{orderContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lottery.account.domain.AccountRecord" >
+    insert into account_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="withdrawType != null" >
+        withdraw_type,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="orderContent != null" >
+        order_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawType != null" >
+        #{withdrawType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderContent != null" >
+        #{orderContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lottery.account.domain.AccountRecord" >
+    update account_record
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawType != null" >
+        withdraw_type = #{withdrawType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderContent != null" >
+        order_content = #{orderContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lottery.account.domain.AccountRecord" >
+    update account_record
+    set userid = #{userid,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      payment_type = #{paymentType,jdbcType=VARCHAR},
+      withdraw_type = #{withdrawType,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      order_content = #{orderContent,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

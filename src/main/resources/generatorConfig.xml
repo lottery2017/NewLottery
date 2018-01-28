@@ -23,7 +23,7 @@
         </javaTypeResolver>
 
         <!-- targetProject:生成PO类的位置 -->
-        <javaModelGenerator targetPackage="com.lottery.user.domain"
+        <javaModelGenerator targetPackage="com.lottery.account.domain"
                             targetProject="src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
@@ -41,13 +41,16 @@
         </sqlMapGenerator>
         <!-- targetPackage：mapper接口生成的位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.lottery.user.dao"
+                             targetPackage="com.lottery.account.dao"
                              targetProject="src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 指定数据库表 -->
-        <table schema="" tableName="user" enableCountByExample="false" enableUpdateByExample="false"
+        <table schema="" tableName="account" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table schema="" tableName="account_record" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
