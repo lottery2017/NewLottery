@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <!--<properties resource="jdbc.properties"></properties>-->
     <!--mysql 连接数据库jar 这里选择自己本地位置-->
-    <classPathEntry location="E:\versions\newfeature\ESB\lib\mysql-connector-java-5.1.9.jar"/>
+    <classPathEntry location="C:\Users\user\.m2\repository\mysql\mysql-connector-java\5.1.41\mysql-connector-java-5.1.41.jar"/>
     <context id="testTables" targetRuntime="MyBatis3">
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -50,8 +50,8 @@
         <table schema="" tableName="account" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table schema="" tableName="account_record" enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--<table schema="" tableName="account_record" enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
     </context>
 </generatorConfiguration>

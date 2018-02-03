@@ -12,10 +12,11 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="valid_tag" property="validTag" jdbcType="CHAR" />
+    <result column="bank_deposit" property="bankDeposit" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     userid, balance, bank_num, identify_card, bank_name, binding_phone, bank_location, 
-    create_time, modify_time, valid_tag
+    create_time, modify_time, valid_tag, bank_deposit
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,11 +32,11 @@
     insert into account (userid, balance, bank_num, 
       identify_card, bank_name, binding_phone, 
       bank_location, create_time, modify_time, 
-      valid_tag)
+      valid_tag, bank_deposit)
     values (#{userid,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, #{bankNum,jdbcType=VARCHAR}, 
       #{identifyCard,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bindingPhone,jdbcType=VARCHAR}, 
       #{bankLocation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{validTag,jdbcType=CHAR})
+      #{validTag,jdbcType=CHAR}, #{bankDeposit,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lottery.account.domain.Account" >
     insert into account
@@ -70,6 +71,9 @@
       <if test="validTag != null" >
         valid_tag,
       </if>
+      <if test="bankDeposit != null" >
+        bank_deposit,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userid != null" >
@@ -101,6 +105,9 @@
       </if>
       <if test="validTag != null" >
         #{validTag,jdbcType=CHAR},
+      </if>
+      <if test="bankDeposit != null" >
+        #{bankDeposit,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +141,9 @@
       <if test="validTag != null" >
         valid_tag = #{validTag,jdbcType=CHAR},
       </if>
+      <if test="bankDeposit != null" >
+        bank_deposit = #{bankDeposit,jdbcType=VARCHAR},
+      </if>
     </set>
     where userid = #{userid,jdbcType=VARCHAR}
   </update>
@@ -147,7 +157,8 @@
       bank_location = #{bankLocation,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      valid_tag = #{validTag,jdbcType=CHAR}
+      valid_tag = #{validTag,jdbcType=CHAR},
+      bank_deposit = #{bankDeposit,jdbcType=VARCHAR}
     where userid = #{userid,jdbcType=VARCHAR}
   </update>
 </mapper>

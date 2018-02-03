@@ -24,6 +24,8 @@ public class Account {
 
     private String validTag;
 
+    private String bankDeposit;
+
     public String getUserid() {
         return userid;
     }
@@ -102,5 +104,13 @@ public class Account {
 
     public void setValidTag(String validTag) {
         this.validTag = validTag == null ? null : validTag.trim();
+    }
+
+    public String getBankDeposit() {
+        return bankDeposit;
+    }
+
+    public void setBankDeposit(String bankDeposit) {
+        this.bankDeposit = bankDeposit == null ? null : bankDeposit.trim();
     }
 }

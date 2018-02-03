@@ -27,6 +27,8 @@
     <mvc:default-servlet-handler/>    <!-- 自动扫描 -->
     <context:component-scan base-package="com.lottery.user.service"/>
     <context:component-scan base-package="com.lottery.user.controller"/>
+    <context:component-scan base-package="com.lottery.account.service"/>
+    <context:component-scan base-package="com.lottery.account.controller"/>
 
     <!--<mvc:resources mapping="/assets/**" location=""/>-->
 

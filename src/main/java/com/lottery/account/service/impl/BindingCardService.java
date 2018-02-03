@@ -25,7 +25,7 @@ import java.util.Date;
 @Service
 public class BindingCardService {
     private static Logger log = Logger.getLogger(BindingCardService.class);
-    private  AccountMapper accountMapper;
+    private AccountMapper accountMapper;
     private UserMapper userMapper;
     public String doBinding(HttpServletRequest request){
         String body = null;
@@ -47,8 +47,9 @@ public class BindingCardService {
             Account account = new Account();
             account.setBankNum(card_num);
             account.setBindingPhone(binding_phone);
-            account.setBankLocation(bank_province+ "_" + bank_name);
-            account.setBankName(deposit_bank);
+            account.setBankLocation(bank_province+ "_" + bank_city);
+            account.setBankName(bank_name);
+            account.setBankDeposit(deposit_bank);
             account.setValidTag("Y");
             account.setUserid("key_" + binding_phone);
             account.setBalance(new BigDecimal(0));
