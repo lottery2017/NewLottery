@@ -21,11 +21,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <%--<a href="pay2account.jsp"  title="付款到快钱账户" >付款到快钱账户</a>--%>
-    <%--<br>--%>
-    <%--<br>--%>
-    <%--<a href="pay2bank.jsp"  title="付款到银行账户" >付款到银行账户</a>--%>
-    <%--<br>--%>
+    <a href="pay2account.jsp"  title="付款到快钱账户" >付款到快钱账户</a>
+    <br>
+    <br>
+    <a href="pay2bank.jsp"  title="付款到银行账户" >付款到银行账户</a>
+    <br>
     <h3>官方网彩</h3>
   </body>
 </html>
