@@ -27,5 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <a href="pay2bank.jsp"  title="付款到银行账户" >付款到银行账户</a>
     <br>
     <h3>官方网彩</h3>
+    <h3>官方网彩</h3>
+    <h3>官方网彩</h3>
   </body>
 </html>
